@@ -62,7 +62,7 @@ jobs:
       - name: Inizializzazione Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: database:set "eccomi qui"
+          args: projects:list
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}          
         
