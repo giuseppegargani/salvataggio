@@ -62,10 +62,15 @@ jobs:
        # --project databasericette-beeb7 database:get /giuseppegargani/verifica
        # {\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}
        # ${{fromJSON(needs.job1.outputs.matrix)}}
+       # { title=> "New title", body=> "This is the new body" }
+       
+      - id: set-matrix
+        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+         
       - name: Operazioni Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data { title=> "New title", body=> "This is the new body" }
+          args: --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data ${{fromJSON(steps.set-matrix.outputs.matrix)}}
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
