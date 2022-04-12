@@ -67,7 +67,7 @@ jobs:
         with:
           args: --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data ${fromJSON("{\"project\":\"bar\",\"config\":\"Release\"}")}
         env:
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}          
+          GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
        #Stampa per verificarne la correttezza e utili nel caso di problemi
       - name: echo-default-env-variables
