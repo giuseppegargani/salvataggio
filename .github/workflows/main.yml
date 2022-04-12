@@ -65,7 +65,7 @@ jobs:
       - name: Operazioni Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data ${{ toJSON(job) }}
+          args: --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data { title=> "New title", body=> "This is the new body" }
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
