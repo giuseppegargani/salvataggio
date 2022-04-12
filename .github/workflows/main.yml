@@ -67,10 +67,11 @@ jobs:
       - id: set-matrix
         run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
          
+         # --project databasericette-beeb7 database:set /giuseppegargani --data '{"name":"CodingDoug"}' --force
       - name: Operazioni Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: --project databasericette-beeb7 database:set /giuseppegargani --data '{"name":"CodingDoug"}' --force
+          args: --project databasericette-beeb7 --force database:set /import --data '{"foo":"bar baz"}'
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
