@@ -68,10 +68,11 @@ jobs:
         run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
          
          # --project databasericette-beeb7 database:set /giuseppegargani --data '{"name":"CodingDoug"}' --force
+         # database:update --project databasericette-beeb7 /giuseppegargani --data '{"foo":"bar baz"}' --force
       - name: Operazioni Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: database:update --project databasericette-beeb7 /giuseppegargani --data '{"foo":"bar baz"}' --force
+          args: deploy --only hosting
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
