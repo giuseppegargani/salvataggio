@@ -58,10 +58,11 @@ jobs:
        
        # proviamo a lanciare qualche comandi e documentazione (come da Cli)
        # deploy --only hosting
+       # help!!! 
       - name: Inizializzazione Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: help
+          args: database:set "eccomi qui"
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}          
         
@@ -131,16 +132,16 @@ jobs:
           
       # salvataggio del file json convertito in precedenza
       # comando SCP!!!!!!
-      - name: Update latest version in realtime database
-        uses: w9jds/firebase-trigger@master
-        id: readJSON
-        with:
-          credentials: ${{ secrets.GCP_SA_KEY }}
-          databaseUrl: https://databasericette-beeb7.firebaseio.com
-          databaseType: firestore
-          path: "${{ github.repository }}"
+      #- name: Update latest version in realtime database
+        #uses: w9jds/firebase-trigger@master
+        #id: readJSON
+        #with:
+          #credentials: ${{ secrets.GCP_SA_KEY }}
+          #databaseUrl: https://databasericette-beeb7.firebaseio.com
+          #databaseType: firestore
+          #path: "${{ github.repository }}"
           #Si devono mettere come segreto!!!
           #value: ${{ fromJSON(example.json)}}
           #per firestore si deve inserire un file!!!!!!!
           #value: "$(fromJson(steps.readJson.outputs.packageJson).version)"
-          value: ${{env.FILE}}
+          #value: ${{env.FILE}}
