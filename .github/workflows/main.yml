@@ -71,7 +71,8 @@ jobs:
         uses: w9jds/firebase-action@master
         with:
           args: |
-           --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data  ${{ fromJSON('{"foo": "bar baz"}') }} 
+           echo '{"foo": "bar baz"}' 
+           database:set --project databasericette-beeb7 --force --confirm
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
