@@ -58,11 +58,11 @@ jobs:
        
        # proviamo a lanciare qualche comandi e documentazione (come da Cli)
        # deploy --only hosting
-       # help!!! 
+       # help!!! projects:list
       - name: Inizializzazione Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: projects:list
+          args: firebase database:get /giuseppegargani
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}          
         
