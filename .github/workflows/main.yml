@@ -71,8 +71,7 @@ jobs:
         uses: w9jds/firebase-action@master
         with:
           args: |
-           echo '{"foo": "bar baz"}' 
-           database:set --project databasericette-beeb7 --force --confirm
+            --project databasericette-beeb7 --force --confirm database:set '{"foo": "bar baz"}' 
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
