@@ -72,7 +72,7 @@ jobs:
       - name: Operazioni Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --project databasericette-beeb7
+          args: database:set --force --debug  --project databasericette-beeb7 /giuseppegargani/ecchime Example.json
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
