@@ -1,0 +1,143 @@
+# Questa è una prova di pull condizionato ad una chiave utente e una push condizionata al controllo dei test
+
+name: Android CI Testing prima di push
+on: 
+  push:
+    branches: [ master, main ]
+  pull_request: 
+    branches:  [ master, main ]
+jobs: 
+  build: 
+    runs-on:  ubuntu-latest
+    permissions:
+           checks: write
+           contents: read
+           issues: read
+           pull-requests: write
+    strategy:
+      matrix:
+        java_version: [11]
+        api-level: [29]
+        arch: [x86]
+        
+    steps:
+    
+      #- name: Install coreutils for macOS
+        #run: brew install coreutils
+        
+      - uses: malinskiy/action-android/install-sdk@release/0.0.8  
+        
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        
+        # fromJSON() converts a string into a JSON object or value
+        # ${{ toJSON('{"FAVORITE_FRUIT" : "APPLE", "FAVORITE_COLOR" : "BLUE"}') }}
+      #- name: From JSON
+        #env: ${{ toJSON('{"FAVORITE_FRUIT": "APPLE", "FAVORITE_COLOR": "BLUE"}') }}
+        #run: echo "I would like a ${FAVORITE_COLOR} ${FAVORITE_FRUIT}"
+        
+      - name: Controlla se il file esiste e esegui una serie di istruzioni - Espressioni condizionali e funzioni
+        run: |
+         echo FILE=Example.json >> $GITHUB_ENV
+         if [ -f "$FILE" ]; then echo "$FILE exists."
+         else echo "$FILE does not exist."
+         fi
+         FILE2=Exampl.json
+         if [ -f "$FILE2" ]; then echo "$FILE2 exists."
+         else echo "$FILE2 does not exist."
+         fi
+         test -f /etc/resolv.conf && echo "$FILE exists."
+         test -f Exampl.json && echo "$FILE exists."
+         test -f ./Example.json && echo "$FILE exists."
+         
+      - name: Verifica lettura del file - Leggi da file Ambientale
+        run: cat ${{env.FILE}}
+       
+       # proviamo a lanciare qualche comandi e documentazione (come da Cli)
+       # deploy --only hosting
+      - name: Inizializzazione Firebase DB
+        uses: jonahsnider/firebase-action@1.0.7
+        with:
+          args: help
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}          
+        
+       #Stampa per verificarne la correttezza e utili nel caso di problemi
+      - name: echo-default-env-variables
+        run: |
+            echo "Home: ${HOME}"
+            echo "GITHUB_WORKFLOW: ${GITHUB_WORKFLOW}"
+            echo "GITHUB_ACTIONS: ${GITHUB_ACTIONS}"
+            echo "GITHUB_ACTOR: ${GITHUB_ACTOR}"
+            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
+            echo "GITHUB_EVENT_NAME: ${GITHUB_EVENT_NAME}"
+            echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
+            echo "GITHUB_SHA: ${GITHUB_SHA}"
+            echo "GITHUB_REF: ${GITHUB_REF}"
+            echo "GITHUB_BASE_REF: ${GITHUB_BASE_REF}"
+    
+      - name: Update latest version in realtime database
+        uses: w9jds/firebase-trigger@master
+        #env:
+          #GITHUB_CONTEXT: ${{ toJSON(github.repository) }}
+          #NOME_REPOSITORY: 
+        with:
+          credentials: ${{ secrets.GCP_SA_KEY }}
+          databaseUrl: https://databasericette-beeb7.firebaseio.com
+          path: "${{ github.repository }}"
+          #Si devono mettere come segreto!!!
+          value: "${{ github.repository }}"
+          
+      # Leggi il file Json a video e immagazzina il contenuto in una variabile
+      #commenti: # echo "valori: ${cat Example.Json}"
+      # the following lines are only required for multi line json
+      # content="${content//'%'/'%25'}"
+      # content="${content//$'\n'/'%0A'}"
+      # content="${content//$'\r'/'%0D'}"
+      #- name: Read and Store JSON file ( for debug )
+        #id: readJsonXFire
+        #run: |
+          #ls app
+          #ls ./
+          #ls
+          #cat ./Example.Json
+          #echo '***************************************linea di separazione*********************************************'
+          #content="$(cat Example.Json)"
+          #oggetto="${Example.Json}"
+          #echo '***************************************linea di separazione*********************************************'
+          #content="${content//'%'/'%25'}"
+          #content="${content//$'\n'/'%0A'}"
+          #content="${content//$'\r'/'%0D'}"
+          #parola="antonio"
+        #echo 'verifica che la parola associata alla variabile parola un nome proprio: $parola'
+        #echo 'oppure $parola oppure ${parola}'
+        #echo '::set-output name=documento::$(content)'
+        #echo '::set-output name=beppe::"eccomi"'
+        #echo '::set-output name=elmira::$parola'
+          
+      # e poi lo va a leggere!!!! verificato che lo passa 
+      # echo "${{fromJson(steps.readJSON2Firebase.outputs.packageJson).version}}"
+      # echo "$(fromJson(steps.readJSON2Firebase.outputs.packageJson).version)"
+      # stringa = "${{steps.readJSON2Firebase.outputs.packageJson}}"
+      #- name: Testa Json 
+        #run: |
+          #echo " il valore del primo ${{steps.readJsonXFire.outputs.documento }}"
+          #echo " il valore del secondo ${{steps.readJsonXFire.outputs.beppe}}"
+          #echo ' il valore del terzo: ${{steps.readJsonXFire.outputs.beppe}}'
+          #echo "il valore del quarto:  ${{steps.readJsonXFire.outputs.elmira}}"
+          
+      # salvataggio del file json convertito in precedenza
+      # comando SCP!!!!!!
+      - name: Update latest version in realtime database
+        uses: w9jds/firebase-trigger@master
+        id: readJSON
+        with:
+          credentials: ${{ secrets.GCP_SA_KEY }}
+          databaseUrl: https://databasericette-beeb7.firebaseio.com
+          databaseType: firestore
+          path: "${{ github.repository }}"
+          #Si devono mettere come segreto!!!
+          #value: ${{ fromJSON(example.json)}}
+          #per firestore si deve inserire un file!!!!!!!
+          #value: "$(fromJson(steps.readJson.outputs.packageJson).version)"
+          value: ${{env.FILE}}
