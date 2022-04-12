@@ -71,7 +71,7 @@ jobs:
       - name: Operazioni Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: --project databasericette-beeb7 --force database:update /giuseppegargani --data '{"foo":"bar baz"}'
+          args: --project databasericette-beeb7 database:update /giuseppegargani --data '{"foo":"bar baz"}' --force
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
