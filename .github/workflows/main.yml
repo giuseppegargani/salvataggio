@@ -65,7 +65,7 @@ jobs:
       - name: Operazioni Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data ${{\"project\":\"bar\",\"config\":\"Release\"}}
+          args: --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data {"colors"=>[{"orange"=>nil, 100=>"#hexcode", 75=>"#hexcode", 50=>"#hexcode", 25=>"#hexcode"}, {"red"=>nil, 100=>"#hexcode", 75=>"#hexcode", 50=>"#hexcode", 25=>"#hexcode"}]}
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
