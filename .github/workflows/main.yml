@@ -36,6 +36,9 @@ jobs:
         #env: ${{ toJSON('{"FAVORITE_FRUIT": "APPLE", "FAVORITE_COLOR": "BLUE"}') }}
         #run: echo "I would like a ${FAVORITE_COLOR} ${FAVORITE_FRUIT}"
         
+      - name: verifica Bash
+        run: bash --version
+        
       - name: Controlla se il file esiste e esegui una serie di istruzioni - Espressioni condizionali e funzioni
         run: |
          echo FILE=Example.json >> $GITHUB_ENV
