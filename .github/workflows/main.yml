@@ -71,7 +71,7 @@ jobs:
       - name: Operazioni Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: --project databasericette-beeb7 database:set /import --data '{"foo":"bar baz"}'
+          args: --project databasericette-beeb7 database:update /import --data '{"foo":"bar baz"}'
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_CREDENTIALS }}          
         
