@@ -61,10 +61,11 @@ jobs:
        # help!!! projects:list
        # --project databasericette-beeb7 database:get /giuseppegargani/verifica
        # {\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}
+       # ${{fromJSON(needs.job1.outputs.matrix)}}
       - name: Operazioni Firebase DB
         uses: w9jds/firebase-action@master
         with:
-          args: --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data "{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+          args: --project databasericette-beeb7 database:set --force /giuseppegargani/verifica2 --data ${{fromJSON("{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}")}}
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}          
         
